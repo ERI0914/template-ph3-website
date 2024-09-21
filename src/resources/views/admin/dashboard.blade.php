@@ -22,7 +22,7 @@
                         <a href="#">ユーザー管理</a>
                     </li>
                     <li class="list-group-item">
-                        <a href="#">クイズ管理</a>
+                        <a href="{{ route('quizzes.index') }}">クイズ管理</a>
                     </li>
                     <li class="list-group-item">
                         <a href="#">レポート</a>
@@ -31,10 +31,20 @@
             </div>
         </div>
 
-        <div class="mt-5">
+        {{-- <div class="mt-5">
             <a href="{{ route('logout') }}" class="btn btn-danger">ログアウト</a>
         </div>
-    </div>
+        <a href="{{ route('quizzes.index') }}">クイズ</a>
+    </div> --}}
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+    @csrf
+</form>
+
+<a href="#" class="btn btn-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    ログアウト
+</a>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

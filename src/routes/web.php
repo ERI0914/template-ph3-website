@@ -16,6 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+
+
+
 // ユーザー一覧を表示するルート
 Route::get('/users', [UserController::class, 'index']);
 
@@ -39,6 +44,14 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+
+
+
+Route::get('/quizzes/create', [QuizController::class, 'create'])->name('quizzes.create');
+Route::post('/quizzes', [QuizController::class, 'store'])->name('quizzes.store');
+
+
+
 // クイズ関連のルート
 Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
 Route::get('/quizzes/{id}', [QuizController::class, 'show'])->name('quizzes.show');
@@ -46,7 +59,54 @@ Route::get('/quizzes/{id}/edit', [QuizController::class, 'edit'])->name('quizzes
 Route::post('/quizzes/{id}', [QuizController::class, 'update'])->name('quizzes.update');
 Route::delete('/quizzes/{id}', [QuizController::class, 'destroy'])->name('quizzes.destroy');
 
-// ダッシュボード関連のルート
-Route::get('/dashboard', [AuthenticatedSessionController::class, 'create'])->name('dashboard');
-Route::post('/dashboard', [AuthenticatedSessionController::class, 'store']);
 
+
+
+
+
+
+// ダッシュボード関連のルート
+// Route::get('/dashboard', [AuthenticatedSessionController::class, 'create'])->name('dashboard');
+// Route::post('/dashboard', [AuthenticatedSessionController::class, 'store']);
+
+// Route::get('/dashboard', function () {
+//     return view('dashboard')->name('dashboard');
+// });
+
+// 管理者専用ルート（必要に応じて有効化）
+
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.dashboard');
+    });
+});
+
+// Route::middleware(['auth', 'is_admin'])->group(function () {
+//     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
+// });
+
+
+// Route::resource('quizzes', QuizController::class);
+
+
+// Route::get('/quizzes/create', function () {
+//     return view('quizzes.create');
+// });
+
+
+
+
+// routes/web.php
+Route::get('/questions', [QuestionController::class, 'index'])->name('questions.index');
+
+
+
+Route::get('/quizzes', [QuizController::class, 'index'])->name('quizzes.index');
+Route::get('/quizzes/create', [QuizController::class, 'create'])->name('quizzes.create');
+Route::post('/quizzes', [QuizController::class, 'store'])->name('quizzes.store');
+Route::get('/quizzes/{quiz}', [QuizController::class, 'show'])->name('quizzes.show');
+
+
+
+
+Route::put('/quizzes/{id}', [QuizController::class, 'update'])->name('quizzes.update');

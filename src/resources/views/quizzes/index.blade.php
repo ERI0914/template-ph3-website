@@ -5,12 +5,19 @@
 <head>
     <meta charset="UTF-8">
     <title>クイズ一覧</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 </head>
 <body>
     <h1>クイズ一覧</h1>
     @if (session('status'))
         <p style="color: green;">{{ session('status') }}</p>
     @endif
+
+  <a href="{{ route('quizzes.create') }}" class="btn btn-primary mb-3">新規作成</a>
+
+
+
     <ul>
         @if($quizzes->isEmpty())
         <p>クイズがありません。</p>
@@ -28,6 +35,11 @@
         @endforeach
         @endif
     </ul>
+    <!-- ページネーションリンクの表示 -->
+    <div>
+        {{-- {{ $quizzes->links() }} --}}
+         {{ $quizzes->links('pagination::bootstrap-4') }}
+    </div>
 </body>
 </html>
 
